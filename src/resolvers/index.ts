@@ -274,7 +274,7 @@ export const loginUser = async (
     throw new UserInputError("User does not exist");
   }
   const passwordMatch = await bcrypt.compare(password, student.password);
-  console.log(await bcrypt.hash(password, 10));
+//   console.log(await bcrypt.hash(password, 10));
   console.log({ password, pwd: student.password, passwordMatch });
   if (!passwordMatch) {
     throw new UserInputError("Incorrect username or password");
@@ -356,7 +356,7 @@ export const loginAdmin = async (
     throw new UserInputError("Admin does not exist");
   }
   const passwordMatch = await bcrypt.compare(password, admin.password);
-  console.log(await bcrypt.hash(password, 10));
+//   console.log(await bcrypt.hash(password, 10));
   console.log({ password, pwd: admin.password, passwordMatch });
   if (!passwordMatch) {
     throw new UserInputError("Incorrect username or password");

@@ -450,7 +450,7 @@ describe("test open study group asessment", () => {
     await new Promise((res) => {
       setTimeout(() => {
         res(0);
-      }, 10000);
+      }, 15000);
     });
   }, TEST_TIME_OUT);
 });
