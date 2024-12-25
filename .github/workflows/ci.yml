@@ -13,8 +13,7 @@ jobs:
 
       - name: validate install format and lint
         run: |
-            npm install  &&
-            npm install &&
+            npm install  &
             npm run lint &&
             npm run check:formatting
         working-directory: ./
@@ -35,6 +34,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Run Unit Test
         run: |
+             npm install
              npm run test 
         env: 
           DB_CONNECTION: ${{secrets.DB_CONNECTION}}
