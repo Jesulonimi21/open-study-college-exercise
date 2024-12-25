@@ -5,7 +5,7 @@
   "main": "index.js",
   "outDir": "dist",
   "scripts": {
-    "test": "jest",
+    "test": "npx jest",
     "start": "nodemon --files ./src/index.ts",
     "lint": "npx eslint ./*/*.ts",
     "build": "tsc -p ./tsconfig.json",
