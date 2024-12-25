@@ -1,0 +1,41 @@
+name: Open Study College Actions Demo
+run-name: ${{ github.actor }} is running GitHub Actions 🚀
+on: [push]
+jobs:
+  Lint-Job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20.9.0"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: validate install format and lint
+        run: |
+            npm install  &&
+            npm install &&
+            npm run lint &&
+            npm run check:formatting
+        working-directory: ./
+
+
+  Run-E2E-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0  # Specify the desired Node.js version
+          registry-url: "https://registry.npmjs.org"
+      - uses: actions/checkout@v2
+        with:
+          node-version: 20.9.0
+          registry-url: "https://registry.npmjs.org"
+      - run: pwd
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Run Unit Test
+        run: |
+             npm run test 
+        env: 
+          DB_CONNECTION: ${{secrets.DB_CONNECTION}}
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
