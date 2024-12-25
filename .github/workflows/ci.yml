@@ -13,7 +13,7 @@ jobs:
 
       - name: validate install format and lint
         run: |
-            npm install  &
+            npm install  &&
             npm run lint &&
             npm run check:formatting
         working-directory: ./
@@ -39,3 +39,4 @@ jobs:
         env: 
           DB_CONNECTION: ${{secrets.DB_CONNECTION}}
           SECRET_KEY: ${{secrets.SECRET_KEY}}
+          TEST_SECRET: ${{secrets.TEST_SECRET}}

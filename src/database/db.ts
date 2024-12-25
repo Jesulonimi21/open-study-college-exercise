@@ -18,6 +18,7 @@ const createConnection = (connectionString: string, options: Options) => {
   });
 };
 const connectionString: string = process.env.DB_CONNECTION || "";
+console.log({testSecret: process.env.TEST_SECRET});
 const db = createConnection(connectionString, { query: { raw: true } });
 
 interface CourseAttributes {
