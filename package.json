@@ -9,7 +9,7 @@
     "start": "nodemon --files ./src/index.ts",
     "lint": "npx eslint ./*/*.ts",
     "build": "tsc -p ./tsconfig.json",
-    "run:docker": "docker run --env-file ./.env  -it -p 7001:7001 ops-tsd",
+    "run:docker": "docker run --env-file ./.env  -it -p 8080:8080 ops-tsd",
     "build:docker": "docker build -t ops-tsd .",
     "lint:without:warn": "npx eslint --fix ./**/*.ts --no-warn-ignored",
     "format:write": "npx prettier --write ./**/*.ts",

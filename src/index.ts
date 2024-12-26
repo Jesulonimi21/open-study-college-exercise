@@ -66,6 +66,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-export default app.listen(7001, () => {
+export default app.listen(8080, () => {
   console.log("App started listening");
 });
