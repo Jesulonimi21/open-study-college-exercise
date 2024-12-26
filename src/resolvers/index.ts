@@ -81,18 +81,6 @@ export const getCourse = async (
       id,
     },
   });
-  //   const isCollectionRequired = getFieldList(info).filter(
-  //     (el) => el.includes(".")
-  //   );
-
-  //   if(isCollectionRequired.length > 0 ){
-  //     const collection = context.Collection.findOne({
-  //       where: {
-  //         id: course.collection
-  //       },
-  //     });
-  //     course = {...course, collection}
-  //   }
   return course;
 };
 
