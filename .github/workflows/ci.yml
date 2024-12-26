@@ -40,3 +40,4 @@ jobs:
           DB_CONNECTION: ${{secrets.DB_CONNECTION}}
           SECRET_KEY: ${{secrets.SECRET_KEY}}
           TEST_SECRET: ${{secrets.TEST_SECRET}}
+          ADMIN_SECRET_KEY: ${{secrets.ADMIN_SECRET_KEY}}

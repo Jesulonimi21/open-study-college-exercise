@@ -25,6 +25,7 @@ let client: ApolloClient<NormalizedCacheObject>;
 let token = "";
 const user = makeid(10);
 let idToUse = 0;
+const adminUser = makeid(10);
 describe("test open study group asessment", () => {
   beforeAll(async () => {
     console.log("wait for db Connection");
@@ -435,6 +436,108 @@ describe("test open study group asessment", () => {
 
     expect(data.courses.filter((el: any) => el.id === idToUse).length).toBe(0);
   });
+
+  test("Cannot create admin with wrong secret key", async() =>{
+     await expect(
+       client.mutate({
+         mutation: gql`
+           mutation CreateAdmin(
+             $email: String!
+             $password: String!
+             $adminSecret: String!
+           ) {
+             createAdmin(
+               email: $email
+               password: $password
+               adminSecret: $adminSecret
+             ) {
+               role
+               iat
+               exp
+             }
+           }
+         `,
+         variables: {
+           email: adminUser,
+           password: "description",
+           adminSecret: "ninfidnd",
+         },
+       })
+     ).rejects.toThrow();
+  })
+
+  test ("Can Create Admin With right secret key", async() => {
+    const { data } = await client.mutate({
+      mutation: gql`
+        mutation CreateAdmin(
+          $email: String!
+          $password: String!
+          $adminSecret: String!
+        ) {
+          createAdmin(
+            email: $email
+            password: $password
+            adminSecret: $adminSecret
+          ) {
+            role
+            iat
+            exp
+          }
+        }
+      `,
+      variables: {
+        email: adminUser,
+        password: "pass",
+        adminSecret: process.env.ADMIN_SECRET_KEY,
+      },
+    });
+    expect(data.createAdmin.role).toBe("admin");
+  });
+
+  test("Cannot Log Admin in with wrong details", async() => {
+     await expect(
+       client.mutate({
+         mutation: gql`
+           mutation LoginAdmin(
+             $email: String!
+             $password: String!
+           ) {
+             loginAdmin(
+               email: $email
+               password: $password
+             ) {
+               role
+               iat
+               exp
+             }
+           }
+         `,
+         variables: {
+           email: adminUser,
+           password: "passes",
+         },
+       })
+     ).rejects.toThrow();
+  });
+
+  test("Can login Admin with right details", async() => {
+    const { data } = await  client.mutate({
+      mutation: gql`
+        mutation LoginAdmin($email: String!, $password: String!) {
+          loginAdmin(email: $email, password: $password) {
+            role
+            iat
+            exp
+          }
+        }
+      `,
+      variables: {
+        email: adminUser,
+        password: "pass",
+      },
+    });
+    expect(data.loginAdmin.role).toBe("admin");
+  })
 
   afterAll(async () => {
     app.close();

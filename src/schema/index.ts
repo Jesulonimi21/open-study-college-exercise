@@ -51,7 +51,7 @@ export default gql`
     login(username: String, password: String): AuthPayload
     deleteCourse(id: String): Int
     updateCourse(id: String, input: JSON): Course
-    createAdmin(email: String, password: String): AuthPayload
+    createAdmin(email: String, password: String, adminSecret: String): AuthPayload
     loginAdmin(email: String, password: String): AuthPayload
   }
 `;

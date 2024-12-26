@@ -287,7 +287,7 @@ const getCourseForCollection = async (course: Course, b: any, context: any): Pro
 
 const createAdmin = async (
   _: any,
-  { email, password }: { email: string; password: string },
+  { email, password, adminSecret }: { email: string; password: string, adminSecret: string },
   context: any,
 ): Promise<LogInOutput> => {
   const { Admin } = context;
@@ -300,6 +300,14 @@ const createAdmin = async (
   if (adminExist) {
     throw new UserInputError("Admin already exist");
   }
+  const adminKey = process.env.ADMIN_SECRET_KEY || "";
+  if (!adminKey){
+    throw new UserInputError("Admin Creation is not currently supported");
+  }
+  if(adminKey != adminSecret){
+    throw new UserInputError("Not An Authorized Admin");
+  }
+  
   const hashedPassword = await bcrypt.hash(password, 10);
   const admin = { email, password: hashedPassword };
   const token = jwt.sign(
