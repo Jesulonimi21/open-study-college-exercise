@@ -3,8 +3,6 @@
 I have completed the exercise and fulfilled the obligations as well as the bonus section
 A good deal of evidence can be seen in the github actions where i run the following tests
 
-```
-
 
 ## Bonus
 - Added a createAdmin and loginAdmin 
@@ -28,6 +26,8 @@ A good deal of evidence can be seen in the github actions where i run the follow
  - I would have added all the types in the global.d.ts file instead of just some of them
   
 
+
+```
 PASS tests/test.ts (32.737 s)
   test open study group asessment
     ✓ Can Register User (561 ms)
