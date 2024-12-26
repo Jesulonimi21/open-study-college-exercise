@@ -437,36 +437,36 @@ describe("test open study group asessment", () => {
     expect(data.courses.filter((el: any) => el.id === idToUse).length).toBe(0);
   });
 
-  test("Cannot create admin with wrong secret key", async() =>{
-     await expect(
-       client.mutate({
-         mutation: gql`
-           mutation CreateAdmin(
-             $email: String!
-             $password: String!
-             $adminSecret: String!
-           ) {
-             createAdmin(
-               email: $email
-               password: $password
-               adminSecret: $adminSecret
-             ) {
-               role
-               iat
-               exp
-             }
-           }
-         `,
-         variables: {
-           email: adminUser,
-           password: "description",
-           adminSecret: "ninfidnd",
-         },
-       })
-     ).rejects.toThrow();
-  })
+  test("Cannot create admin with wrong secret key", async () => {
+    await expect(
+      client.mutate({
+        mutation: gql`
+          mutation CreateAdmin(
+            $email: String!
+            $password: String!
+            $adminSecret: String!
+          ) {
+            createAdmin(
+              email: $email
+              password: $password
+              adminSecret: $adminSecret
+            ) {
+              role
+              iat
+              exp
+            }
+          }
+        `,
+        variables: {
+          email: adminUser,
+          password: "description",
+          adminSecret: "ninfidnd",
+        },
+      }),
+    ).rejects.toThrow();
+  });
 
-  test ("Can Create Admin With right secret key", async() => {
+  test("Can Create Admin With right secret key", async () => {
     const { data } = await client.mutate({
       mutation: gql`
         mutation CreateAdmin(
@@ -494,34 +494,28 @@ describe("test open study group asessment", () => {
     expect(data.createAdmin.role).toBe("admin");
   });
 
-  test("Cannot Log Admin in with wrong details", async() => {
-     await expect(
-       client.mutate({
-         mutation: gql`
-           mutation LoginAdmin(
-             $email: String!
-             $password: String!
-           ) {
-             loginAdmin(
-               email: $email
-               password: $password
-             ) {
-               role
-               iat
-               exp
-             }
-           }
-         `,
-         variables: {
-           email: adminUser,
-           password: "passes",
-         },
-       })
-     ).rejects.toThrow();
+  test("Cannot Log Admin in with wrong details", async () => {
+    await expect(
+      client.mutate({
+        mutation: gql`
+          mutation LoginAdmin($email: String!, $password: String!) {
+            loginAdmin(email: $email, password: $password) {
+              role
+              iat
+              exp
+            }
+          }
+        `,
+        variables: {
+          email: adminUser,
+          password: "passes",
+        },
+      }),
+    ).rejects.toThrow();
   });
 
-  test("Can login Admin with right details", async() => {
-    const { data } = await  client.mutate({
+  test("Can login Admin with right details", async () => {
+    const { data } = await client.mutate({
       mutation: gql`
         mutation LoginAdmin($email: String!, $password: String!) {
           loginAdmin(email: $email, password: $password) {
@@ -537,7 +531,7 @@ describe("test open study group asessment", () => {
       },
     });
     expect(data.loginAdmin.role).toBe("admin");
-  })
+  });
 
   afterAll(async () => {
     app.close();
