@@ -47,8 +47,8 @@ export default gql`
       outcome: String!
       collection: Int!
     ): Course
-    registerUser(email: String, password: String): AuthPayload
-    loginUser(email: String, password: String): AuthPayload
+    register(username: String, password: String): AuthPayload
+    login(username: String, password: String): AuthPayload
     deleteCourse(id: String): Int
     updateCourse(id: String, input: JSON): Course
     createAdmin(email: String, password: String): AuthPayload

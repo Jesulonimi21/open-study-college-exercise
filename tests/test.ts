@@ -47,8 +47,8 @@ describe("test open study group asessment", () => {
   test("Can Register User", async () => {
     const { data } = await client.mutate({
       mutation: gql`
-        mutation RegisterUser($email: String) {
-          registerUser(email: $email, password: "baggy") {
+        mutation RegisterUser($username: String) {
+          register(username: $username, password: "baggy") {
             role
             iat
             exp
@@ -57,16 +57,16 @@ describe("test open study group asessment", () => {
           }
         }
       `,
-      variables: { email: user },
+      variables: { username: user },
     });
-    expect(data.registerUser.token).toBeDefined();
+    expect(data.register.token).toBeDefined();
   });
 
   test("Registered User Can Login", async () => {
     const { data } = await client.mutate({
       mutation: gql`
-        mutation LogInUser($email: String) {
-          loginUser(email: $email, password: "baggy") {
+        mutation LogInUser($username: String) {
+          login(username: $username, password: "baggy") {
             role
             iat
             exp
@@ -75,10 +75,10 @@ describe("test open study group asessment", () => {
           }
         }
       `,
-      variables: { email: user },
+      variables: { username: user },
     });
-    token = data.loginUser.token;
-    expect(data.loginUser.token).toBeDefined();
+    token = data.login.token;
+    expect(data.login.token).toBeDefined();
   });
 
   test("Cannot fetch course without authorization token", async () => {

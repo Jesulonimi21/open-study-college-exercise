@@ -47,7 +47,7 @@ export const getCollection = async (
   }
   const courses = context.Course.findAll({
     where: {
-      collection: collection.name,
+      collection: collection.id,
     },
   });
   return courses;
@@ -182,20 +182,20 @@ export const isAdmin = async (userId: string): Promise<boolean> => {
 
 export const registerUser = async (
   _: any,
-  { email, password }: { email: string; password: string },
+  { username, password }: { username: string; password: string },
   context: any
 ): Promise<LogInOutput> => {
   const { Student } = context;
   const student = await Student.findOne({
     where: {
-      email,
+      email: username,
     },
   });
   if (student) {
     throw new UserInputError("Email already exists");
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { email, password: hashedPassword };
+  const user = { email: username, password: hashedPassword };
   const token = jwt.sign({ userId: user.email }, process.env.SECRET_KEY || "", {
     expiresIn: "1h",
   });
@@ -256,13 +256,13 @@ export const getUserIdFromToken = (token: string): string => {
 
 export const loginUser = async (
   _: any,
-  { email, password }: { email: string; password: string },
+  { username, password }: { username: string; password: string },
   context: any,
 ):Promise<LogInOutput> => {
   const { Student } = context;
   const student = await Student.findOne({
     where: {
-      email,
+      email: username,
     },
   });
 
@@ -382,8 +382,8 @@ const resolvers = {
   },
   Mutation: {
     addCourse,
-    registerUser,
-    loginUser,
+    register: registerUser,
+    login: loginUser,
     deleteCourse,
     updateCourse,
     createAdmin,
