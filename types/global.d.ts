@@ -11,5 +11,14 @@ declare global {
   type CourseQueryArgs = {
     id: number;
   };
+  type LogInOutput = {
+    id: string;
+    iat: string;
+    role: string;
+    token: string;
+    exp: string;
+  };
 }
+
+
 export {};

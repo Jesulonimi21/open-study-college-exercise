@@ -13,7 +13,8 @@
     "build:docker": "docker build -t ops-tsd .",
     "lint:without:warn": "npx eslint --fix ./**/*.ts --no-warn-ignored",
     "format:write": "npx prettier --write ./**/*.ts",
-    "check:formatting": "npx prettier -c ./**/*.ts"
+    "check:formatting": "npx prettier -c ./**/*.ts",
+    "run:with:ts-node": "ts-node --files ./src/index.ts"
 
   },
   "keywords": [],

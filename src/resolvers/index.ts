@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import GraphQLJSON from "graphql-type-json";
-import { Admin, CollectionModel, Course } from "../database/db";
+import { Admin, CollectionModel } from "../database/db";
 dotenv.config();
 
 export const getCourses = (
@@ -45,8 +45,7 @@ export const getCollection = async (
   if (!collection) {
     throw new UserInputError("Collection does not exist");
   }
-  console.log({ collection });
-  const courses = Course.findAll({
+  const courses = context.Course.findAll({
     where: {
       collection: collection.name,
     },
@@ -94,9 +93,6 @@ export const getCourse = async (
   //     });
   //     course = {...course, collection}
   //   }
-
-  console.log({ fieldNames });
-  console.log({ course });
   return course;
 };
 
@@ -119,7 +115,6 @@ export const addCourse = async (
     throw new UserInputError("Course Already exists");
   }
   const collections = await context.Collection.findAll();
-  console.log({ collections });
   const specificCollection = collections.find(
     (el: { id: number }) => el.id == collection,
   );
@@ -135,7 +130,6 @@ export const addCourse = async (
     duration,
     collection,
   });
-  console.log({ course });
   return course.dataValues;
 };
 
@@ -189,8 +183,8 @@ export const isAdmin = async (userId: string): Promise<boolean> => {
 export const registerUser = async (
   _: any,
   { email, password }: { email: string; password: string },
-  context: any,
-) => {
+  context: any
+): Promise<LogInOutput> => {
   const { Student } = context;
   const student = await Student.findOne({
     where: {
@@ -240,7 +234,6 @@ export const isTokenValid = (token: string): boolean => {
   }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY || "");
-    console.log({ decoded });
     const userId = decoded;
     return userId != undefined;
   } catch (error) {
@@ -265,7 +258,7 @@ export const loginUser = async (
   _: any,
   { email, password }: { email: string; password: string },
   context: any,
-) => {
+):Promise<LogInOutput> => {
   const { Student } = context;
   const student = await Student.findOne({
     where: {
@@ -277,8 +270,6 @@ export const loginUser = async (
     throw new UserInputError("User does not exist");
   }
   const passwordMatch = await bcrypt.compare(password, student.password);
-//   console.log(await bcrypt.hash(password, 10));
-  console.log({ password, pwd: student.password, passwordMatch });
   if (!passwordMatch) {
     throw new UserInputError("Incorrect username or password");
   }
@@ -290,7 +281,6 @@ export const loginUser = async (
     },
   );
   const now = new Date();
-  console.log({ token });
   context.res.setHeader("Authorization", token);
   return {
     id: student.email,
@@ -301,7 +291,7 @@ export const loginUser = async (
   };
 };
 
-const getCourseForCollection = async (course: Course, b: any, context: any) => {
+const getCourseForCollection = async (course: Course, b: any, context: any): Promise<CollectionModel> => {
   const { loaders } = context;
   const collection = await loaders.collection.load(course.collection);
   return collection;
@@ -311,7 +301,7 @@ const createAdmin = async (
   _: any,
   { email, password }: { email: string; password: string },
   context: any,
-) => {
+): Promise<LogInOutput> => {
   const { Admin } = context;
   const adminExist = await Admin.findOne({
     where: {
@@ -347,7 +337,7 @@ export const loginAdmin = async (
   _: any,
   { email, password }: { email: string; password: string },
   context: any,
-) => {
+):Promise<LogInOutput> => {
   const { Admin } = context;
   const admin = await Admin.findOne({
     where: {
@@ -359,8 +349,6 @@ export const loginAdmin = async (
     throw new UserInputError("Admin does not exist");
   }
   const passwordMatch = await bcrypt.compare(password, admin.password);
-//   console.log(await bcrypt.hash(password, 10));
-  console.log({ password, pwd: admin.password, passwordMatch });
   if (!passwordMatch) {
     throw new UserInputError("Incorrect username or password");
   }
@@ -372,7 +360,6 @@ export const loginAdmin = async (
     },
   );
   const now = new Date();
-  console.log({ token });
   context.res.setHeader("Authorization", token);
   return {
     id: admin.email,

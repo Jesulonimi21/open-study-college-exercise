@@ -27,10 +27,11 @@ const user = makeid(10);
 let idToUse = 0;
 describe("test open study group asessment", () => {
   beforeAll(async () => {
+
+    console.log("wait for db Connection");
     await new Promise((res) => {
       setTimeout(() => {
         res(0);
-        console.log("wait for timeout");
       }, 10000);
     });
     const { port } = app.address();
@@ -45,7 +46,6 @@ describe("test open study group asessment", () => {
   }, TEST_TIME_OUT);
 
   test("Can Register User", async () => {
-    console.log({ cbv: makeid(10) });
     const { data } = await client.mutate({
       mutation: gql`
         mutation RegisterUser($email: String) {
@@ -60,7 +60,6 @@ describe("test open study group asessment", () => {
       `,
       variables: { email: user },
     });
-    console.log({ data });
     expect(data.registerUser.token).toBeDefined();
   });
 
@@ -79,7 +78,6 @@ describe("test open study group asessment", () => {
       `,
       variables: { email: user },
     });
-    console.log({ data });
     token = data.loginUser.token;
     expect(data.loginUser.token).toBeDefined();
   });
@@ -113,7 +111,6 @@ describe("test open study group asessment", () => {
         },
       },
     });
-    console.log({ data });
     expect(data.course).toBeDefined();
   });
 
@@ -148,7 +145,6 @@ describe("test open study group asessment", () => {
           },
         },
       });
-      console.log({ data });
       expect(data.courses).toBeDefined();
     },
     TEST_TIME_OUT,
@@ -233,7 +229,6 @@ describe("test open study group asessment", () => {
       },
     });
     idToUse = data.addCourse.id;
-    console.log({ data });
   });
 
   test("Cannot fetch collection without authorization", async () => {
@@ -343,7 +338,6 @@ describe("test open study group asessment", () => {
   });
 
   test("Can update course with authorization", async () => {
-    console.log({ idToUse });
     const course = makeid(5);
     const collection = 1;
     const description = makeid(15);
@@ -387,8 +381,6 @@ describe("test open study group asessment", () => {
         },
       },
     });
-
-    console.log({ data });
     expect(data.updateCourse.title).toBe(course);
   });
 
@@ -447,6 +439,7 @@ describe("test open study group asessment", () => {
 
   afterAll(async () => {
     app.close();
+    console.log("Wait for DB Close");
     await new Promise((res) => {
       setTimeout(() => {
         res(0);
