@@ -27,7 +27,6 @@ const user = makeid(10);
 let idToUse = 0;
 describe("test open study group asessment", () => {
   beforeAll(async () => {
-
     console.log("wait for db Connection");
     await new Promise((res) => {
       setTimeout(() => {
