@@ -249,6 +249,9 @@ export const isTokenValid = (token: string): boolean => {
   }
 };
 export const getUserIdFromToken = (token: string): string => {
+  if(!token){
+    return "";
+  }
   try {
     const decoded = jwt.verify(token, process.env.SECRET_KEY || "");
     return (decoded as { userId: string }).userId || "";
