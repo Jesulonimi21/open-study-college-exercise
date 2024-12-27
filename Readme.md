@@ -41,7 +41,7 @@ Ran all test suites.
 - Added continuous integration with github actions for checking linting, formatting and running tests in CI, can be viewed on the repo [here](https://github.com/Jesulonimi21/open-study-college-exercise/actions/runs/12502563535)
 - Used a production live database 
 - Added end to end tests in jest to test the required functionalities
-- Added a dockerfile so that the code could be run in a container by any developer without having to configure local software, this image could also be put in a container service like AWS ECS or DigitalOcean apps to host the backend
+- Added a dockerfile so that the code could be run in a container by any developer without having to configure local software, this image could also be put in a container service like AWS ECS, DigitalOcean apps or [fly launch apps](https://fly.io/docs/launch/create/#point-to-an-image-or-use-a-dockerfile-to-build) to host the backend
 - Added User-friendly errors
 
 
