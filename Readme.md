@@ -42,6 +42,7 @@ Ran all test suites.
 - Used a production live database 
 - Added end to end tests in jest to test the required functionalities
 - Added a dockerfile so that the code could be run in a container by any developer without having to configure local software, this image could also be put in a container service like AWS ECS or DigitalOcean apps to host the backend
+- Added User-friendly errors
 
 
 ## Performance Optimization
@@ -86,4 +87,18 @@ Ran all test suites.
 - collection(id): Returns a specific collection along with all contained courses
 <img src="./evidence-imgs/queryCollectionCourses.png" width="500">
 
+## How to Run Project Locally
+- Specify the Environment variables defined in the [.env-examples](./.env-examples) folder
+- npm install
+- npm run start
 
+## Run Project with Docker
+- Specify the Environment variables defined in the [.env-examples](./.env-examples) folder
+- Make Sure Docker is installed
+- npm run build:docker
+- npm run run:docker
+
+## Run Project Tests
+- Specify the Environment variables defined in the [.env-examples](./.env-examples) folder
+- npm install
+- npm run test
